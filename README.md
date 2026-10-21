@@ -27,10 +27,11 @@ No paid domain, dedicated IP, backend, database, or API key is needed. All asset
 
 ## Exam behavior
 
-- Set 02: 30 fixed Bengali practice questions on development/mega projects (15) and archaeological/historical sites (15), based on the supplied topic notes. Five questions per page, across six pages. The same set is used in both modes and on retries. See [content notes](CONTENT_NOTES.md) for factual scope and wording choices.
+- Set 02: 30 fixed Bengali practice questions on development/mega projects (15) and archaeological/historical sites (15), based on the supplied topic notes. All 30 questions appear on one scrolling page. The same set is used in both modes and on retries. See [content notes](CONTENT_NOTES.md) for factual scope and wording choices.
 - 30-minute timed mode or unlimited-time practice. Answers remain hidden until submission in both modes.
 - Correct: +1; wrong: −0.5; unanswered: 0. Negative totals are possible. Accuracy counts correct answers as a percentage of attempted questions.
-- Previous/next pages, a question navigator, answer changes and answer clearing before submission.
+- A question navigator jumps to any of the 30 questions without changing pages. A compact sticky banner keeps the timer, answered count and submit button visible. The question navigator and bottom submit button scroll with the page.
+- Answers can be changed or cleared before submission. Attempts saved in the previous six-page layout retain their answers and original deadline.
 - Submission asks for confirmation and reports unanswered questions. Timed mode submits automatically at the original deadline, including after tab switching or refreshing.
 - Answers and results stay in `localStorage` on the same browser/device. Saving can be blocked by browser settings; the page then shows a warning. Nothing is sent to a server. Clearing site storage removes the saved attempt.
 - Results show every correct answer, the selected wrong answer where applicable, and a short explanation. Filters show correct, wrong or unanswered questions.
@@ -44,4 +45,4 @@ Edit `questions.js`. Each record contains `topic`, `q`, four options `o`, a zero
 
 ## Design and privacy
 
-Responsive static HTML, CSS and JavaScript, with native radio controls, keyboard focus styles, submission dialogs and reduced-motion support. No analytics, advertisements, cookies or external runtime requests. Noto Sans Bengali is self-hosted as a compressed font; its SIL Open Font License is in `fonts/OFL.txt`. System fonts provide fallbacks.
+Responsive static HTML, CSS and JavaScript, with native radio controls, keyboard focus styles, submission dialogs and reduced-motion support. No analytics, advertisements, cookies or external runtime requests. Hind Siliguri is self-hosted as compressed regular and semibold fonts, with larger question and answer text and natural Bengali letter spacing. Its SIL Open Font License is in `fonts/OFL.txt`. System fonts provide fallbacks.

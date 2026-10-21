@@ -31,18 +31,22 @@ test('timer expires by absolute deadline even without intervening ticks', () => 
   assert.equal(isExpired(attempt, attempt.deadline + 1000), false);
   assert.equal(isExpired(createAttempt('untimed',1000000), 1000000 + DURATION * 10), false);
 });
-test('saved attempt restores answers, mode, page and original deadline', () => {
+test('saved attempt restores answers, mode and original deadline', () => {
   for (const mode of ['timed','untimed']) {
     const attempt = createAttempt(mode);
-    attempt.page = 4;
     attempt.answers[20] = 2;
     assert.deepEqual(restoreAttempt(JSON.stringify(attempt)), attempt);
   }
 });
+test('six-page attempts migrate without losing answers or resetting the timer', () => {
+  const attempt = createAttempt('timed');
+  attempt.answers[29] = questions[29].a;
+  assert.deepEqual(restoreAttempt(JSON.stringify({...attempt, page: 5})), attempt);
+});
 test('corrupt, outdated and malformed browser data is ignored', () => {
   assert.equal(restoreAttempt('{invalid'), null);
   assert.equal(restoreAttempt(null), null);
-  for (const change of [{set:'old'},{set:'bcs-practice-01-v1'},{page:6},{page:-1},{mode:'other'},{deadline:0},{answers:[]},{finishedAt:0},{auto:'true'}]) {
+  for (const change of [{set:'old'},{set:'bcs-practice-01-v1'},{mode:'other'},{deadline:0},{answers:[]},{finishedAt:0},{auto:'true'}]) {
     assert.equal(restoreAttempt(JSON.stringify({...createAttempt('timed'),...change})), null);
   }
   const attempt = createAttempt('timed');

@@ -1,8 +1,6 @@
 import { QUESTION_SET, questions } from './questions.js';
 
 export const DURATION = 30 * 60 * 1000;
-export const PAGE_SIZE = 5;
-export const PAGE_COUNT = Math.ceil(questions.length / PAGE_SIZE);
 export const STORAGE_KEY = 'prostuti.exam.v1';
 export const bn = value => String(value).replace(/[0-9]/g, digit => '০১২৩৪৫৬৭৮৯'[digit]);
 export const clock = ms => {
@@ -12,7 +10,7 @@ export const clock = ms => {
 
 export function createAttempt(mode, now = Date.now()) {
   return {set: QUESTION_SET, mode, startedAt: now, deadline: mode === 'timed' ? now + DURATION : null,
-    finishedAt: null, auto: false, page: 0, answers: questions.map(() => null)};
+    finishedAt: null, auto: false, answers: questions.map(() => null)};
 }
 
 export function score(answers) {
@@ -33,10 +31,13 @@ export function restoreAttempt(raw) {
       || !Number.isFinite(s.startedAt) || s.startedAt <= 0
       || (s.mode === 'timed' ? s.deadline !== s.startedAt + DURATION : s.deadline !== null)
       || (s.finishedAt !== null && (!Number.isFinite(s.finishedAt) || s.finishedAt < s.startedAt))
-      || typeof s.auto !== 'boolean' || !Number.isInteger(s.page) || s.page < 0 || s.page >= PAGE_COUNT
+      || typeof s.auto !== 'boolean'
       || !Array.isArray(s.answers) || s.answers.length !== questions.length
       || !s.answers.every((a, i) => a === null || (Number.isInteger(a) && a >= 0 && a < questions[i].o.length))) return null;
-    return s;
+    // Keep existing answers/deadlines when migrating from the six-page layout.
+    // Only return fields still used by the exam; the legacy page field is ignored.
+    const {set, mode, startedAt, deadline, finishedAt, auto, answers} = s;
+    return {set, mode, startedAt, deadline, finishedAt, auto, answers};
   } catch { return null; }
 }
 

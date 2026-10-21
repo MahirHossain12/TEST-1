@@ -1,5 +1,5 @@
 import { questions, SET_LABEL, SET_DESCRIPTION } from './questions.js';
-import { PAGE_SIZE, PAGE_COUNT, STORAGE_KEY, bn, clock, createAttempt, restoreAttempt, score, isExpired } from './core.js';
+import { STORAGE_KEY, bn, clock, createAttempt, restoreAttempt, score, isExpired } from './core.js';
 
 const main = document.querySelector('#main');
 const dialog = document.querySelector('#confirm-dialog');
@@ -57,7 +57,7 @@ function home() {
         <div class="edition"><span class="status-dot"></span> বিসিএস মিনি মডেল টেস্ট <span class="edition-number">${SET_LABEL}</span></div>
         <h1>বড় স্বপ্নের পথে,<br>আজ <span class="highlight">৩০টি প্রশ্ন।<svg viewBox="0 0 320 15" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10Q160-3 318 6"/></svg></span></h1>
         <p class="hero-description">${SET_DESCRIPTION}।<br>সময় ধরে পরীক্ষা দিন, কিংবা শিখুন নিজের গতিতে।</p>
-        <div class="hero-meta"><span>${icon('book')} ৩০টি বহুনির্বাচনি প্রশ্ন</span><span>${icon('grid')} প্রতি পাতায় ৫টি প্রশ্ন</span></div>
+        <div class="hero-meta"><span>${icon('book')} ৩০টি বহুনির্বাচনি প্রশ্ন</span><span>${icon('grid')} সব প্রশ্ন এক পাতায়</span></div>
         <div class="mode-choices">
           <button class="mode-card timed" data-action="start" data-mode="timed">
             <span class="mode-icon">${icon('clock')}</span><span class="mode-text"><strong>সময় ধরে পরীক্ষা</strong><small>৩০ মিনিট · পরীক্ষার মতো অভিজ্ঞতা</small></span><span class="mode-arrow">${icon('arrow')}</span>
@@ -73,7 +73,7 @@ function home() {
         <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
         <span class="floating-spark">✳</span>
         <div class="exam-paper">
-          <div class="paper-top"><span>আপনার পরবর্তী পদক্ষেপ</span><span>০১ / ০৬</span></div>
+          <div class="paper-top"><span>আপনার পরবর্তী পদক্ষেপ</span><span>৩০টি প্রশ্ন</span></div>
           <div class="paper-heading">একটু অনুশীলন,<br>আরও একটু আত্মবিশ্বাস<span>।</span></div>
           <div class="paper-question">সফল প্রস্তুতির শুরু কোথায়?</div>
           <div class="paper-option"><i>ক</i> শুধু পরিকল্পনায়</div>
@@ -88,7 +88,7 @@ function home() {
     <section class="before-start" aria-labelledby="before-heading">
       <div class="before-title"><span class="eyebrow">শুরু করার আগে</span><h2 id="before-heading">ছোট পরীক্ষা, পরিষ্কার নিয়ম।</h2></div>
       <div class="rule"><span class="rule-number">০১</span><div><h3>সঠিক উত্তরে +১</h3><p>ভুল উত্তরে −০.৫ নম্বর। উত্তর না দিলে ০।</p></div></div>
-      <div class="rule"><span class="rule-number">০২</span><div><h3>উত্তর বদলাতে পারবেন</h3><p>জমা দেওয়ার আগে যেকোনো পাতায় ফিরে যান।</p></div></div>
+      <div class="rule"><span class="rule-number">০২</span><div><h3>উত্তর বদলাতে পারবেন</h3><p>স্ক্রল করে যেকোনো প্রশ্নে ফিরে যান।</p></div></div>
       <div class="rule"><span class="rule-number">০৩</span><div><h3>শেষেই শেখার শুরু</h3><p>ফলাফলের সঙ্গে সঠিক উত্তর ও ছোট ব্যাখ্যা।</p></div></div>
     </section>
     <div class="subject-strip"><span>এই সেটের বিষয়গুলো</span><div>${['পদ্মা সেতু','মেট্রোরেল ও টানেল','বিদ্যুৎ ও বন্দর','ব-দ্বীপ পরিকল্পনা','প্রত্নতাত্ত্বিক নিদর্শন','ঐতিহাসিক স্থাপনা'].map(t => `<span>${t}</span>`).join('')}</div></div>
@@ -97,19 +97,18 @@ function home() {
 
 function exam() {
   const answered = score(attempt.answers).answered;
-  const start = attempt.page * PAGE_SIZE;
   main.innerHTML = `
     <section class="exam-shell" aria-labelledby="exam-title">
       <div class="exam-heading"><div><span class="eyebrow">বিসিএস মিনি মডেল টেস্ট / ${SET_LABEL}</span><h1 id="exam-title">মনোযোগ থাকুক প্রশ্নে<span class="brand-dot">।</span></h1></div><button class="text-button exit-button" data-action="home">${icon('back')} শুরুর পাতা</button></div>
       <div class="exam-dashboard">
-        <div class="dashboard-top"><span class="page-label">পাতা <b>${bn(attempt.page + 1)}</b> / ${bn(PAGE_COUNT)}</span><span class="timer ${attempt.mode === 'timed' ? '' : 'no-limit'}" id="timer-box">${icon(attempt.mode === 'timed' ? 'clock' : 'infinity')} <span id="timer" role="timer" aria-label="অবশিষ্ট সময়">${attempt.mode === 'timed' ? clock(attempt.deadline - Date.now()) : 'সময়ের সীমা নেই'}</span></span></div>
+        <div class="dashboard-top"><span id="answered-count">${bn(answered)} / ৩০ উত্তর</span><span class="timer ${attempt.mode === 'timed' ? '' : 'no-limit'}" id="timer-box">${icon(attempt.mode === 'timed' ? 'clock' : 'infinity')} <span id="timer" role="timer" aria-label="${attempt.mode === 'timed' ? 'অবশিষ্ট সময়' : 'সময়ের সীমা নেই'}">${attempt.mode === 'timed' ? clock(attempt.deadline - Date.now()) : 'সময়মুক্ত'}</span></span><button class="button primary dashboard-submit" data-action="submit">জমা দিন</button></div>
         <div class="progress-track" role="progressbar" aria-label="উত্তর দেওয়া হয়েছে" aria-valuemin="0" aria-valuemax="30" aria-valuenow="${answered}"><span style="width:${answered / questions.length * 100}%"></span></div>
-        <div class="dashboard-bottom"><span id="answered-count">${bn(answered)} / ৩০টি উত্তর দেওয়া হয়েছে</span><span>সঠিক +১ &nbsp; ভুল −০.৫</span></div>
-        <details class="question-map"><summary>${icon('grid')} প্রশ্নের তালিকা <span>যেকোনো প্রশ্নে যান</span></summary><div class="map-grid">${questions.map((q, i) => `<button class="map-number ${attempt.answers[i] !== null ? 'answered' : ''} ${Math.floor(i / PAGE_SIZE) === attempt.page ? 'current-page' : ''}" data-jump="${i}" aria-label="প্রশ্ন ${bn(i + 1)}, ${attempt.answers[i] !== null ? 'উত্তর দেওয়া' : 'উত্তর বাকি'}">${bn(i + 1)}</button>`).join('')}</div><div class="map-legend"><span><i></i> উত্তর দেওয়া</span><span><i></i> উত্তর বাকি</span></div></details>
       </div>
-      <div class="question-list">${questions.slice(start, start + PAGE_SIZE).map((q, offset) => questionCard(q, start + offset)).join('')}</div>
+      <details class="question-map"><summary>${icon('grid')} প্রশ্নের তালিকা <span>যেকোনো প্রশ্নে যান</span></summary><div class="map-grid">${questions.map((q, i) => `<button class="map-number ${attempt.answers[i] !== null ? 'answered' : ''}" data-jump="${i}" aria-label="প্রশ্ন ${bn(i + 1)}, ${attempt.answers[i] !== null ? 'উত্তর দেওয়া' : 'উত্তর বাকি'}">${bn(i + 1)}</button>`).join('')}</div><div class="map-legend"><span><i></i> উত্তর দেওয়া</span><span><i></i> উত্তর বাকি</span></div></details>
+      <p class="exam-instruction">সব ৩০টি প্রশ্ন নিচে দেওয়া আছে। সঠিক +১ · ভুল −০.৫ · উত্তর না দিলে ০।</p>
+      <div class="question-list">${questions.map((q, i) => questionCard(q, i)).join('')}</div>
       <p class="save-note" data-storage-note>${storageNote()}</p>
-      <nav class="exam-controls" aria-label="পরীক্ষার পাতাসমূহ"><div class="controls-inner"><button class="button secondary previous" data-action="previous" ${attempt.page === 0 ? 'disabled' : ''}>${icon('back')} আগের পাতা</button><button class="text-button submit-early" data-action="submit">জমা দিন</button>${attempt.page === PAGE_COUNT - 1 ? `<button class="button primary next" data-action="submit">পরীক্ষা শেষ করুন ${icon('check')}</button>` : `<button class="button primary next" data-action="next">পরের পাতা ${icon('arrow')}</button>`}</div></nav>
+      <div class="exam-controls"><button class="button primary" data-action="submit">উত্তরপত্র জমা দিন ${icon('check')}</button></div>
     </section>`;
   updateTimer();
 }
@@ -130,7 +129,7 @@ function updateAnswer(i, answer) {
   });
   card.querySelector('[data-clear]').hidden = answer === null;
   const answered = score(attempt.answers).answered;
-  document.querySelector('#answered-count').textContent = `${bn(answered)} / ৩০টি উত্তর দেওয়া হয়েছে`;
+  document.querySelector('#answered-count').textContent = `${bn(answered)} / ৩০ উত্তর`;
   const progress = document.querySelector('[role=progressbar]');
   progress.setAttribute('aria-valuenow', answered);
   progress.firstElementChild.style.width = `${answered / questions.length * 100}%`;
@@ -192,10 +191,6 @@ function updateTimer() {
   document.querySelector('#timer-box')?.classList.toggle('urgent', remaining <= 5 * 60 * 1000);
   if (remaining <= 5 * 60 * 1000 && !warned) { announce('আর পাঁচ মিনিটের কম সময় বাকি।'); warned = true; }
 }
-function navigatePage(page) {
-  attempt.page = Math.max(0, Math.min(PAGE_COUNT - 1, page));
-  save(); render(true);
-}
 main.addEventListener('change', event => {
   const input = event.target.closest('[data-question]');
   if (input) updateAnswer(Number(input.dataset.question), Number(input.value));
@@ -212,7 +207,7 @@ main.addEventListener('click', event => {
   }
   if (button.dataset.jump !== undefined) {
     const index = Number(button.dataset.jump);
-    navigatePage(Math.floor(index / PAGE_SIZE));
+    document.querySelector('.question-map').open = false;
     const target = document.querySelector(`#question-${index}`);
     target.scrollIntoView({block: 'start'}); target.focus({preventScroll: true}); return;
   }
@@ -226,8 +221,6 @@ main.addEventListener('click', event => {
     case 'start': warned = false; start(button.dataset.mode); break;
     case 'resume': view = 'exam'; render(true); break;
     case 'home': view = 'home'; render(true); break;
-    case 'previous': navigatePage(attempt.page - 1); break;
-    case 'next': navigatePage(attempt.page + 1); break;
     case 'submit': {
       const {skipped} = score(attempt.answers);
       ask('উত্তরপত্র জমা দেবেন?', skipped ? `এখনো ${bn(skipped)}টি প্রশ্নের উত্তর দেওয়া হয়নি। জমা দেওয়ার পর উত্তর বদলানো যাবে না।` : 'সব প্রশ্নের উত্তর দেওয়া হয়েছে। জমা দেওয়ার পর উত্তর বদলানো যাবে না।', 'হ্যাঁ, জমা দিন', () => finish(isExpired(attempt)));
