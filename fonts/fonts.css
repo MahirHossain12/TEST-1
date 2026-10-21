@@ -1,0 +1,8 @@
+/* Noto Sans Bengali, SIL Open Font License. See OFL.txt. No external font requests. */
+@font-face {
+  font-family: 'Noto Sans Bengali';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('./noto-sans-bengali.woff2') format('woff2');
+}

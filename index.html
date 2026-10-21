@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f8f2">
+  <meta name="description" content="বিসিএস প্রস্তুতির জন্য ৩০ প্রশ্নের ছোট মডেল টেস্ট। সময় ধরে বা নিজের গতিতে পরীক্ষা দিন, সঙ্গে সঠিক উত্তর ও ব্যাখ্যা।">
+  <title>প্রস্তুতি — বিসিএস অনুশীলন</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="./fonts/noto-sans-bengali.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">মূল অংশে যান</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./" aria-label="প্রস্তুতি হোম">
+        <span class="brand-mark" aria-hidden="true">প<span>•</span></span>
+        <span>প্রস্তুতি<span class="brand-dot">.</span></span>
+      </a>
+      <span class="header-note"><span class="status-dot"></span> একটু একটু করে, এগিয়ে যাই</span>
+    </div>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="site-footer"><span>প্রস্তুতি<span class="brand-dot">.</span> &nbsp; নিজের সঙ্গে, নিজের প্রতিযোগিতা।</span><span>বিসিএস অনুশীলন · অফিসিয়াল পরীক্ষা নয়</span></footer>
+  <dialog id="confirm-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <form method="dialog">
+      <span class="eyebrow">আরেকবার দেখে নিন</span>
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-description"></p>
+      <div class="dialog-actions"><button class="button secondary" value="cancel" autofocus>ফিরে যাই</button><button class="button primary" id="dialog-confirm" value="confirm">জমা দিন</button></div>
+    </form>
+  </dialog>
+  <div id="announcement" class="sr-only" role="status" aria-live="polite"></div>
+  <noscript><div class="no-script">পরীক্ষা দিতে আপনার ব্রাউজারে JavaScript চালু করুন।</div></noscript>
+</body>
+</html>

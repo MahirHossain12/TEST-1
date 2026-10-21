@@ -1,0 +1,11 @@
+{
+  "name": "prostuti-bcs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A mobile-first Bengali BCS practice exam. No runtime dependencies.",
+  "scripts": {
+    "start": "python3 -m http.server 8000 --bind 0.0.0.0",
+    "test": "node --test tests/*.test.js"
+  }
+}
