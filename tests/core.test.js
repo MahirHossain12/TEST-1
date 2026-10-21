@@ -42,7 +42,7 @@ test('saved attempt restores answers, mode, page and original deadline', () => {
 test('corrupt, outdated and malformed browser data is ignored', () => {
   assert.equal(restoreAttempt('{invalid'), null);
   assert.equal(restoreAttempt(null), null);
-  for (const change of [{set:'old'},{page:6},{page:-1},{mode:'other'},{deadline:0},{answers:[]},{finishedAt:0},{auto:'true'}]) {
+  for (const change of [{set:'old'},{set:'bcs-practice-01-v1'},{page:6},{page:-1},{mode:'other'},{deadline:0},{answers:[]},{finishedAt:0},{auto:'true'}]) {
     assert.equal(restoreAttempt(JSON.stringify({...createAttempt('timed'),...change})), null);
   }
   const attempt = createAttempt('timed');

@@ -27,7 +27,7 @@ No paid domain, dedicated IP, backend, database, or API key is needed. All asset
 
 ## Exam behavior
 
-- 30 fixed practice questions, 5 per page, across 6 pages. The same set is used in both modes and on retries.
+- Set 02: 30 fixed Bengali practice questions on development/mega projects (15) and archaeological/historical sites (15), based on the supplied topic notes. Five questions per page, across six pages. The same set is used in both modes and on retries. See [content notes](CONTENT_NOTES.md) for factual scope and wording choices.
 - 30-minute timed mode or unlimited-time practice. Answers remain hidden until submission in both modes.
 - Correct: +1; wrong: −0.5; unanswered: 0. Negative totals are possible. Accuracy counts correct answers as a percentage of attempted questions.
 - Previous/next pages, a question navigator, answer changes and answer clearing before submission.

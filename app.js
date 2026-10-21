@@ -1,4 +1,4 @@
-import { questions } from './questions.js';
+import { questions, SET_LABEL, SET_DESCRIPTION } from './questions.js';
 import { PAGE_SIZE, PAGE_COUNT, STORAGE_KEY, bn, clock, createAttempt, restoreAttempt, score, isExpired } from './core.js';
 
 const main = document.querySelector('#main');
@@ -54,9 +54,9 @@ function home() {
   main.innerHTML = `
     <section class="landing">
       <div class="hero-copy">
-        <div class="edition"><span class="status-dot"></span> বিসিএস মিনি মডেল টেস্ট <span class="edition-number">সেট ০১</span></div>
+        <div class="edition"><span class="status-dot"></span> বিসিএস মিনি মডেল টেস্ট <span class="edition-number">${SET_LABEL}</span></div>
         <h1>বড় স্বপ্নের পথে,<br>আজ <span class="highlight">৩০টি প্রশ্ন।<svg viewBox="0 0 320 15" preserveAspectRatio="none" aria-hidden="true"><path d="M2 10Q160-3 318 6"/></svg></span></h1>
-        <p class="hero-description">প্রস্তুতি কতটা এগোল, একটু যাচাই হয়ে যাক।<br>সময় ধরে পরীক্ষা দিন, কিংবা শিখুন নিজের গতিতে।</p>
+        <p class="hero-description">${SET_DESCRIPTION}।<br>সময় ধরে পরীক্ষা দিন, কিংবা শিখুন নিজের গতিতে।</p>
         <div class="hero-meta"><span>${icon('book')} ৩০টি বহুনির্বাচনি প্রশ্ন</span><span>${icon('grid')} প্রতি পাতায় ৫টি প্রশ্ন</span></div>
         <div class="mode-choices">
           <button class="mode-card timed" data-action="start" data-mode="timed">
@@ -91,7 +91,7 @@ function home() {
       <div class="rule"><span class="rule-number">০২</span><div><h3>উত্তর বদলাতে পারবেন</h3><p>জমা দেওয়ার আগে যেকোনো পাতায় ফিরে যান।</p></div></div>
       <div class="rule"><span class="rule-number">০৩</span><div><h3>শেষেই শেখার শুরু</h3><p>ফলাফলের সঙ্গে সঠিক উত্তর ও ছোট ব্যাখ্যা।</p></div></div>
     </section>
-    <div class="subject-strip"><span>এক নজরে বিষয়গুলো</span><div>${['বাংলা','English','বাংলাদেশ','আন্তর্জাতিক','গণিত','বিজ্ঞান ও প্রযুক্তি','আরও বিষয়'].map(t => `<span>${t}</span>`).join('')}</div></div>
+    <div class="subject-strip"><span>এই সেটের বিষয়গুলো</span><div>${['পদ্মা সেতু','মেট্রোরেল ও টানেল','বিদ্যুৎ ও বন্দর','ব-দ্বীপ পরিকল্পনা','প্রত্নতাত্ত্বিক নিদর্শন','ঐতিহাসিক স্থাপনা'].map(t => `<span>${t}</span>`).join('')}</div></div>
     <p class="home-footnote" data-storage-note>${storageNote()}</p>`;
 }
 
@@ -100,7 +100,7 @@ function exam() {
   const start = attempt.page * PAGE_SIZE;
   main.innerHTML = `
     <section class="exam-shell" aria-labelledby="exam-title">
-      <div class="exam-heading"><div><span class="eyebrow">বিসিএস মিনি মডেল টেস্ট / সেট ০১</span><h1 id="exam-title">মনোযোগ থাকুক প্রশ্নে<span class="brand-dot">।</span></h1></div><button class="text-button exit-button" data-action="home">${icon('back')} শুরুর পাতা</button></div>
+      <div class="exam-heading"><div><span class="eyebrow">বিসিএস মিনি মডেল টেস্ট / ${SET_LABEL}</span><h1 id="exam-title">মনোযোগ থাকুক প্রশ্নে<span class="brand-dot">।</span></h1></div><button class="text-button exit-button" data-action="home">${icon('back')} শুরুর পাতা</button></div>
       <div class="exam-dashboard">
         <div class="dashboard-top"><span class="page-label">পাতা <b>${bn(attempt.page + 1)}</b> / ${bn(PAGE_COUNT)}</span><span class="timer ${attempt.mode === 'timed' ? '' : 'no-limit'}" id="timer-box">${icon(attempt.mode === 'timed' ? 'clock' : 'infinity')} <span id="timer" role="timer" aria-label="অবশিষ্ট সময়">${attempt.mode === 'timed' ? clock(attempt.deadline - Date.now()) : 'সময়ের সীমা নেই'}</span></span></div>
         <div class="progress-track" role="progressbar" aria-label="উত্তর দেওয়া হয়েছে" aria-valuemin="0" aria-valuemax="30" aria-valuenow="${answered}"><span style="width:${answered / questions.length * 100}%"></span></div>
